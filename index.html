@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Simple Music Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="player-body">
+        <div class="album-cover-wrap">
+          <div id="cover" class="album-cover"></div>
+        </div>
+        <div class="songs-details flex-column">
+          <audio id="audio" src="""></audio>
+          <div id="title" class="song-title">Song Title</div>
+          <div id='artist' class="artist-name">Artist Name</div>
+        </div>
+        <div class="timers flex-row">
+          <div id="current" class="current-time">00:00</div>
+          <span>/</span>
+          <div id="duration" class="song-duration">00:00</div>
+        </div>
+        <div class="progress-bar">
+          <div id="progress" class="current-progress"></div>
+        </div>
+        <div class="navigation flex-row">
+          <button id="previous" class="btn ">
+            <ion-icon class="icn" name="play-skip-back-circle"></ion-icon>
+          </button>
+          <button id="play" class="btn play ">
+            <ion-icon class="icn" name="play-circle"></ion-icon>
+          </button>
+          <button id="pause" class="btn pause active">
+            <ion-icon class="icn" name="pause-circle"></ion-icon>
+          </button>
+          <button id="next" class="btn">
+            <ion-icon class="icn" name="play-skip-forward-circle"></ion-icon>
+          </button>
+        </div>
+        <div class="volume-bar">
+          <div id="volume" class="current-set"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+  ></script>
+</html>
