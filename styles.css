@@ -140,12 +140,14 @@ body {
   height: 0.6rem;
   border-radius: 15px;
   background-color: grey;
+  cursor: pointer;
 }
 
 .current-progress {
   height: 100%;
   width: 0;
   background-color: blue;
+  transition: width 0.1s linear;
 }
 
 .navigation {
@@ -158,7 +160,6 @@ body {
   background: none;
   border: none;
   color: rgba(0, 0, 0, 0.815);
-
   cursor: pointer;
 }
 
@@ -173,9 +174,10 @@ body {
   background-color: grey;
 }
 
-.current-volume {
+.current-set {
+  content: "";
   height: 100%;
-  width: 0;
+  width: 15%;
   background-color: blue;
 }
 

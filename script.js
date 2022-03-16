@@ -39,19 +39,18 @@ const previous = document.getElementById("previous");
 const currentTimeEl = document.getElementById("current");
 const songDurationEl = document.getElementById("duration");
 const progressBar = document.getElementById("progress");
+const sliderDuration = document.getElementById("slider-duration");
 const audio = document.getElementById("audio");
 //SONGS CHANGE
 let i = 0;
 const albumCover = document.getElementById("cover");
 const currentTimeCon = Math.floor(audio.currentTime);
 const songDurationCon = Math.floor(audio.duration);
+const volumeSlider = document.getElementById("volume-slider");
+const currentVolumeSlider = document.getElementById("current-volume");
 
 // TIMERS
-const currentTimeFormat = function () {
-  if (currentTimeCon < 9) {
-    `0${currentTimeCon}`;
-  }
-};
+let timeMMSS = 0;
 
 //LOAD SONG
 const loadSong = function () {
@@ -69,14 +68,42 @@ const loadSong = function () {
 
   //current time AND SONG DURATION
   audio.addEventListener("timeupdate", () => {
+    const currentTimeMMSS = function (seconds) {
+      let sec = 0;
+      let min = 0;
+
+      sec = Math.floor(seconds) % 60;
+      min = parseInt(Math.floor(seconds) / 60);
+      if (sec.toString().length == 1) sec = "0" + sec;
+      if (min <= 9) min = "0" + min;
+      return `${min}:${sec}`;
+    };
+
     progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-    currentTimeEl.innerHTML = Math.floor(audio.currentTime);
-    songDurationEl.innerHTML = Math.floor(audio.duration);
+    currentTimeEl.innerHTML = currentTimeMMSS(audio.currentTime);
+    songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
+
+    sliderDuration.addEventListener("click", (e) => {
+      let sliderPositionX = e.offsetX;
+      let sliderPositionXValue =
+        (sliderPositionX / sliderDuration.offsetWidth) * audio.duration;
+      audio.currentTime = sliderPositionXValue;
+    });
+
+    // audio.currentTime = sliderPositionXValue;
   });
 };
 
 const playAudio = function () {
   audio.play();
+  volumeSlider.addEventListener("click", (e) => {
+    let volumeSliderPositionX = e.offsetX;
+    let volumeSliderPositionXValue =
+      (volumeSliderPositionX / volumeSlider.offsetWidth) * 1;
+    console.log(volumeSliderPositionXValue);
+    audio.volume = volumeSliderPositionXValue;
+    currentVolumeSlider.style.width = `${volumeSliderPositionXValue * 100}%`;
+  });
 };
 const pauseAudio = function () {
   audio.pause();
@@ -137,5 +164,4 @@ const functionPrvious = function () {
 // FUNCTIONS ON START
 loadSong();
 
-console.log(audio.currentTime);
-console.log(audio.duration);
+// volumeSlider.addEventListener("mousemove");
