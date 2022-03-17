@@ -51,7 +51,7 @@ body {
 .player-body {
   /* margin: 20rem auto; */
   width: 40rem;
-  height: 60rem;
+  height: 65rem;
   display: flex;
   flex-direction: column;
   align-content: space-between;
@@ -68,7 +68,7 @@ body {
 }
 
 .album-cover-wrap {
-  transform: translateY(-6rem) scale(1.1);
+  /* transform: translateY(-6rem) scale(1.1); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,7 +88,7 @@ body {
   animation: spin 5s infinite linear;
   animation-play-state: paused;
 
-  box-shadow: 2px 2px 8px rgb(0 0 0 / 80%);
+  box-shadow: 0px 0px 15px rgb(0 0 0 / 100%) inset;
   transition: background 1s ease-out;
 }
 
@@ -121,7 +121,7 @@ body {
 }
 
 .songs-details {
-  margin: 0 3rem;
+  margin: 1rem 3rem;
   border-radius: 15px;
   padding: 1rem;
   font-size: 2.7rem;
