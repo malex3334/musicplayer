@@ -45,7 +45,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(30px) brightness(0.8);
+  backdrop-filter: blur(50px) brightness(0.8);
 }
 
 .player-body {
@@ -54,7 +54,7 @@ body {
   height: 60rem;
   display: flex;
   flex-direction: column;
-  align-content: space-evenly;
+  align-content: space-between;
   justify-content: center;
 
   box-shadow: 2px 0 7px rgba(0, 0, 0, 0.5);
@@ -121,19 +121,25 @@ body {
 }
 
 .songs-details {
+  margin: 0 3rem;
+  border-radius: 15px;
+  padding: 1rem;
   font-size: 2.7rem;
   margin-bottom: 2rem;
+  /* background-color: rgba(255, 255, 255, 0.699);
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.548); */
+  gap: 0;
 }
 
 .song-title {
   font-weight: bold;
-  letter-spacing: 2px;
+  /* letter-spacing: 2px; */
   color: rgba(0, 0, 0, 0.8);
 }
 
 .artist-name {
   font-size: 2rem;
-  letter-spacing: 1.5px;
+  /* letter-spacing: 1.5px; */
   color: rgba(14, 14, 14, 0.8);
 }
 
@@ -158,7 +164,7 @@ body {
   background-color: #ebebeb;
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
   border-radius: 15px;
-  transition: width 0.1s linear;
+  /* transition: width 0.1s linear; */
   position: relative;
 }
 
@@ -169,7 +175,7 @@ body {
   height: 1.5rem;
   top: 50%;
   right: 0;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(50%);
   z-index: 5;
   border-radius: 50%;
   background-color: #fff;
@@ -185,7 +191,7 @@ body {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
-  background-color: rgba(196, 196, 196, 0.795);
+  /* background-color: rgba(255, 255, 255, 0.699); */
 }
 
 .btn {
@@ -244,7 +250,7 @@ body {
   height: 1.3rem;
   top: 50%;
   right: 0;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(50%);
   z-index: 5;
   border-radius: 50%;
   background-color: #fff;
