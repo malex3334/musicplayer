@@ -23,11 +23,15 @@ const data = [
     audio: "/music/Quebo.mp3",
     background: "",
   },
+  {
+    song: "Panamericana",
+    artist: "Eldo",
+    cover:
+      "https://images.genius.com/40f956cb7b2fe1cabe03005755474b4d.803x800x1.jpg",
+    audio: "/music/Eldo1.mp3",
+    background: "",
+  },
 ];
-
-// console.log(data[0].song);
-// console.log(data[0].cover);
-// console.log(data[0].audio);
 
 const songTitle = document.getElementById("title");
 const artistName = document.getElementById("artist");
@@ -56,7 +60,7 @@ let timeMMSS = 0;
 const loadSong = function () {
   audio.src = data[i].audio;
 
-  //load data
+  //LOAD DATA
   albumCover.style.background = `url(\"${data[i].cover}\")`;
   albumCover.style.backgroundSize = "cover";
   document.body.style.background = `url(\"${data[i].cover}\")`;
@@ -79,23 +83,40 @@ const loadSong = function () {
       return `${min}:${sec}`;
     };
 
+    // SHOW FUNCTION
     progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
     currentTimeEl.innerHTML = currentTimeMMSS(audio.currentTime);
-    songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
 
-    sliderDuration.addEventListener("click", (e) => {
-      let sliderPositionX = e.offsetX;
-      let sliderPositionXValue =
-        (sliderPositionX / sliderDuration.offsetWidth) * audio.duration;
-      audio.currentTime = sliderPositionXValue;
-    });
+    setTimeout(() => {
+      songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
+    }, 1000);
+  });
 
-    // audio.currentTime = sliderPositionXValue;
+  sliderDuration.addEventListener("click", (e) => {
+    let sliderPositionX = e.offsetX;
+    let sliderPositionXValue =
+      (sliderPositionX / sliderDuration.offsetWidth) * audio.duration;
+    audio.currentTime = sliderPositionXValue;
   });
 };
+// PLAY
 
 const playAudio = function () {
   audio.play();
+
+  // KEEP PLAYING AFTER SONGS END
+  audio.onended = function () {
+    functionNext();
+    loadSong();
+    const isPlaying = play.classList.contains("active");
+    if (isPlaying) {
+      setTimeout(() => {
+        playAudio();
+      }, 500);
+    }
+  };
+
+  // VOLUME SLIDER
   volumeSlider.addEventListener("click", (e) => {
     let volumeSliderPositionX = e.offsetX;
     let volumeSliderPositionXValue =
@@ -119,6 +140,7 @@ play.addEventListener("click", () => {
   pause.classList.remove("active");
   cover.style.animationPlayState = "running";
   playAudio();
+  console.log(audio.currentTime);
 });
 
 //  PAUSE CLICKED
@@ -149,11 +171,13 @@ previous.addEventListener("click", () => {
   }
 });
 
+// INCREMENT SONG INDEX
 const functionNext = function () {
   if (i >= data.length - 1) i = 0;
   else i++;
 };
 
+// DECREMENT SONG INDEX
 const functionPrvious = function () {
   if (i <= 0) i = data.length - 1;
   else i--;
@@ -163,5 +187,3 @@ const functionPrvious = function () {
 
 // FUNCTIONS ON START
 loadSong();
-
-// volumeSlider.addEventListener("mousemove");
