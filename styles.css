@@ -1,6 +1,3 @@
-:root {
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -156,13 +153,14 @@ body {
   border-radius: 15px;
   background-color: #3b3b3b;
   cursor: pointer;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
 }
 
 .current-progress {
   height: 100%;
   width: 0;
   background-color: #ebebeb;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
+
   border-radius: 15px;
   /* transition: width 0.1s linear; */
   position: relative;
@@ -179,7 +177,6 @@ body {
   z-index: 5;
   border-radius: 50%;
   background-color: #fff;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
 }
 
 .navigation {
@@ -198,6 +195,10 @@ body {
 .icn:hover {
   background-color: rgba(255, 255, 255, 0.699);
   color: rgba(0, 0, 0, 1);
+}
+
+.icn:active {
+  background-color: transparent;
 }
 
 .btn {
@@ -230,7 +231,7 @@ body {
   height: 0.6rem;
   border-radius: 15px;
   background-color: #3b3b3b;
-
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
   cursor: pointer;
 }
 
@@ -240,7 +241,7 @@ body {
   width: 75%;
   border-radius: 15px;
   background-color: #ebebeb;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
+
   position: relative;
 }
 
@@ -255,7 +256,6 @@ body {
   z-index: 5;
   border-radius: 50%;
   background-color: #fff;
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.418));
 }
 
 /*  */
