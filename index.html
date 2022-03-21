@@ -16,23 +16,29 @@
   </head>
   <body>
     <div class="container">
-      <div class="player-body">
+
+      <div id ="player" class="player-body">
+
         <div class="album-cover-wrap">
           <div id="cover" class="album-cover"></div>
         </div>
+
         <div class="songs-details flex-column">
           <audio id="audio" src="""></audio>
           <div id="title" class="song-title">Song Title</div>
           <div id='artist' class="artist-name">Artist Name</div>
         </div>
+
         <div class="timers flex-row">
           <div id="current" class="current-time">00:00</div>
           <span>/</span>
           <div id="duration" class="song-duration">00:00</div>
         </div>
+
         <div id="slider-duration" class="progress-bar">
           <div id="progress" class="current-progress"></div>
         </div>
+
         <div class="navigation flex-row">
           <button id="previous" class="btn ">
             <ion-icon class="icn" name="play-skip-back-circle"></ion-icon>
@@ -47,11 +53,12 @@
             <ion-icon class="icn" name="play-skip-forward-circle"></ion-icon>
           </button>
         </div>
+
         <div class="volume-navigation">
           <ion-icon class="volume-icon" name="volume-low"></ion-icon>
           <div id="volume-slider" class="volume-bar">
             <div id="current-volume" class="current-set"></div>
-          </div>
+          </div>       
           <ion-icon class="volume-icon" name="volume-high"></ion-icon>
       </div>
       </div>

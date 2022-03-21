@@ -45,6 +45,8 @@ const songDurationEl = document.getElementById("duration");
 const progressBar = document.getElementById("progress");
 const sliderDuration = document.getElementById("slider-duration");
 const audio = document.getElementById("audio");
+const player = document.getElementById("player");
+
 //SONGS CHANGE
 let i = 0;
 const albumCover = document.getElementById("cover");
@@ -99,8 +101,8 @@ const loadSong = function () {
     audio.currentTime = sliderPositionXValue;
   });
 };
-// PLAY
 
+// PLAY
 const playAudio = function () {
   audio.play();
 
@@ -121,7 +123,7 @@ const playAudio = function () {
     let volumeSliderPositionX = e.offsetX;
     let volumeSliderPositionXValue =
       (volumeSliderPositionX / volumeSlider.offsetWidth) * 1;
-    console.log(volumeSliderPositionXValue);
+
     audio.volume = volumeSliderPositionXValue;
     currentVolumeSlider.style.width = `${volumeSliderPositionXValue * 100}%`;
   });
@@ -140,7 +142,6 @@ play.addEventListener("click", () => {
   pause.classList.remove("active");
   cover.style.animationPlayState = "running";
   playAudio();
-  console.log(audio.currentTime);
 });
 
 //  PAUSE CLICKED
@@ -182,8 +183,6 @@ const functionPrvious = function () {
   if (i <= 0) i = data.length - 1;
   else i--;
 };
-
-//TIMMERS
 
 // FUNCTIONS ON START
 loadSong();
