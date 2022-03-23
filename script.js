@@ -47,6 +47,9 @@ const sliderDuration = document.getElementById("slider-duration");
 const audio = document.getElementById("audio");
 const player = document.getElementById("player");
 
+const volumeMinEl = document.getElementById("volume-min");
+const volumeMaxEl = document.getElementById("volume-max");
+
 //SONGS CHANGE
 let i = 0;
 const albumCover = document.getElementById("cover");
@@ -126,6 +129,27 @@ const playAudio = function () {
 
     audio.volume = volumeSliderPositionXValue;
     currentVolumeSlider.style.width = `${volumeSliderPositionXValue * 100}%`;
+
+    volumeMaxEl.addEventListener("click", () => {
+      audio.volume = 1;
+      currentVolumeSlider.style.width = "100%";
+      volumeMaxEl.style.color = "white";
+      volumeMinEl.style.color = "black";
+    });
+    volumeMinEl.addEventListener("click", () => {
+      audio.volume = 0;
+      currentVolumeSlider.style.width = "0";
+      volumeMinEl.style.color = "white";
+      volumeMaxEl.style.color = "black";
+    });
+
+    audio.volume < 0.02
+      ? (volumeMinEl.style.color = "white")
+      : (volumeMinEl.style.color = "black");
+
+    audio.volume > 0.98
+      ? (volumeMaxEl.style.color = "white")
+      : (volumeMaxEl.style.color = "black");
   });
 };
 const pauseAudio = function () {
