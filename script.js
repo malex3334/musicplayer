@@ -32,6 +32,16 @@ const data = [
     background: "",
   },
 ];
+const currentTimeMMSS = function (seconds) {
+  let sec = 0;
+  let min = 0;
+
+  sec = Math.floor(seconds) % 60;
+  min = parseInt(Math.floor(seconds) / 60);
+  if (sec.toString().length == 1) sec = "0" + sec;
+  if (min <= 9) min = "0" + min;
+  return `${min}:${sec}`;
+};
 
 const songTitle = document.getElementById("title");
 const artistName = document.getElementById("artist");
@@ -75,26 +85,15 @@ const loadSong = function () {
   songTitle.innerHTML = data[i].song;
   artistName.innerHTML = data[i].artist;
 
+  audio.addEventListener("canplay", () => {
+    songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
+  });
+
   //current time AND SONG DURATION
   audio.addEventListener("timeupdate", () => {
-    const currentTimeMMSS = function (seconds) {
-      let sec = 0;
-      let min = 0;
-
-      sec = Math.floor(seconds) % 60;
-      min = parseInt(Math.floor(seconds) / 60);
-      if (sec.toString().length == 1) sec = "0" + sec;
-      if (min <= 9) min = "0" + min;
-      return `${min}:${sec}`;
-    };
-
     // SHOW FUNCTION
     progressBar.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
     currentTimeEl.innerHTML = currentTimeMMSS(audio.currentTime);
-
-    setTimeout(() => {
-      songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
-    }, 1000);
   });
 
   sliderDuration.addEventListener("click", (e) => {
