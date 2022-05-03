@@ -7,21 +7,18 @@ const data = [
     cover:
       "https://images.genius.com/95158566e73ea4ee02dd2b7b24463d8d.500x500x1.jpg",
     audio: "/music/OSTR.mp3",
-    background: "",
   },
   {
     song: "To jest ta miłość",
     artist: "O.S.T.R.",
     cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
     audio: "/music/OSTR2.mp3",
-    background: "",
   },
   {
     song: "Na Szczycie Blend",
     artist: "SzUsty Blend",
     cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
     audio: "/music/Quebo.mp3",
-    background: "",
   },
   {
     song: "Panamericana",
@@ -29,9 +26,11 @@ const data = [
     cover:
       "https://images.genius.com/40f956cb7b2fe1cabe03005755474b4d.803x800x1.jpg",
     audio: "/music/Eldo1.mp3",
-    background: "",
   },
 ];
+
+// time converter seconds to MMSS
+
 const currentTimeMMSS = function (seconds) {
   let sec = 0;
   let min = 0;
@@ -108,18 +107,6 @@ const loadSong = function () {
 const playAudio = function () {
   audio.play();
 
-  // KEEP PLAYING AFTER SONGS END
-  audio.onended = function () {
-    functionNext();
-    loadSong();
-    const isPlaying = play.classList.contains("active");
-    if (isPlaying) {
-      setTimeout(() => {
-        playAudio();
-      }, 500);
-    }
-  };
-
   // VOLUME SLIDER
   volumeSlider.addEventListener("click", (e) => {
     let volumeSliderPositionX = e.offsetX;
@@ -151,6 +138,19 @@ const playAudio = function () {
       : (volumeMaxEl.style.color = "black");
   });
 };
+
+// KEEP PLAYING AFTER SONGS END
+audio.onended = function () {
+  functionNext();
+  loadSong();
+  const isPlaying = play.classList.contains("active");
+  if (isPlaying) {
+    setTimeout(() => {
+      playAudio();
+    }, 500);
+  }
+};
+
 const pauseAudio = function () {
   audio.pause();
 };
