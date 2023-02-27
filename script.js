@@ -2,6 +2,7 @@
 
 const data = [
   {
+    id: 1,
     song: "Mówiłaś Mi",
     artist: "O.S.T.R.",
     cover:
@@ -9,18 +10,21 @@ const data = [
     audio: "/music/OSTR.mp3",
   },
   {
+    id: 2,
     song: "To jest ta miłość",
     artist: "O.S.T.R.",
     cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
     audio: "/music/OSTR2.mp3",
   },
   {
+    id: 3,
     song: "Na Szczycie Blend",
     artist: "SzUsty Blend",
     cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
     audio: "/music/Quebo.mp3",
   },
   {
+    id: 4,
     song: "Panamericana",
     artist: "Eldo",
     cover:
@@ -55,6 +59,7 @@ const progressBar = document.getElementById("progress");
 const sliderDuration = document.getElementById("slider-duration");
 const audio = document.getElementById("audio");
 const player = document.getElementById("player");
+const playlist = document.getElementById("playlist__list");
 
 const volumeMinEl = document.getElementById("volume-min");
 const volumeMaxEl = document.getElementById("volume-max");
@@ -73,6 +78,14 @@ let timeMMSS = 0;
 //LOAD SONG
 const loadSong = function () {
   audio.src = data[i].audio;
+  let currentPlaylistSong = document.querySelectorAll(
+    ".playlist__list_element"
+  );
+
+  // highlight current song on playlist
+  const prevCurrentPlaylistSong = document.querySelector(".playlist-active");
+  prevCurrentPlaylistSong?.classList.remove("playlist-active");
+  currentPlaylistSong[i]?.classList.add("playlist-active");
 
   //LOAD DATA
   albumCover.style.background = `url(\"${data[i].cover}\")`;
@@ -86,6 +99,7 @@ const loadSong = function () {
 
   audio.addEventListener("canplay", () => {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
+    data[i].songDuration = currentTimeMMSS(audio.duration);
   });
 
   //current time AND SONG DURATION
@@ -209,3 +223,22 @@ const functionPrvious = function () {
 
 // FUNCTIONS ON START
 loadSong();
+
+const createPlaylist = function () {
+  data.forEach((song) => {
+    const newLi = document.createElement("li");
+    newLi.classList.add("playlist__list_element");
+    newLi.innerText = song.id + ". " + song.artist + " - " + song.song;
+    playlist.appendChild(newLi);
+    newLi.addEventListener("click", () => {
+      i = song.id - 1;
+      loadSong();
+      const isPlaying = play.classList.contains("active");
+      if (isPlaying) {
+        playAudio();
+      }
+    });
+  });
+};
+
+createPlaylist();

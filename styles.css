@@ -53,12 +53,12 @@ body {
   align-content: space-between;
   justify-content: center;
 
-  box-shadow: 2px 0 7px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 2px 0 7px rgba(0, 0, 0, 0.5);
 
   border-radius: 15px;
   background: linear-gradient(to bottom, transparent, rgba(71, 71, 71, 0.6));
   background-color: rgba(255, 255, 255, 0.747);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); */
 }
 
 .album-cover-wrap {
@@ -259,6 +259,44 @@ button:focus-visible,
   background-color: #fff;
 }
 
+.playlist {
+  padding: 1rem;
+  margin: 0 1rem;
+  border-radius: 5px;
+  width: 30rem;
+
+  /* background: linear-gradient(to bottom, transparent, rgba(71, 71, 71, 0.6));
+  background-color: rgba(255, 255, 255, 0.747);
+  backdrop-filter: blur(10px); */
+}
+
+.playlist__title {
+  margin: 0.75rem 0;
+}
+
+.playlist__list {
+  margin-left: 1rem;
+  list-style: none;
+}
+
+.playlist__list_element {
+  cursor: pointer;
+  margin: 0.75rem 0;
+}
+
+.playlist-active {
+  font-weight: bold;
+}
+
+.body-style {
+  box-shadow: 2px 0 7px rgba(0, 0, 0, 0.5);
+
+  border-radius: 15px;
+  background: linear-gradient(to bottom, transparent, rgba(71, 71, 71, 0.6));
+  background-color: rgba(255, 255, 255, 0.747);
+  backdrop-filter: blur(10px);
+}
+
 /* ANIMATION */
 
 @keyframes spin {
@@ -276,5 +314,14 @@ button:focus-visible,
 @media (max-width: 500px) {
   html {
     font-size: 50%;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .playlist {
+    width: 40rem;
   }
 }
