@@ -254,7 +254,8 @@ const functionNext = function () {
 // DECREMENT SONG INDEX
 const functionPrvious = function () {
   if (shuffleFlag == true) {
-    i = Math.floor(Math.random() * data.length);
+    let test = randomNumber(data.length, i);
+    i = test;
   } else {
     if (i <= 0) i = data.length - 1;
     else i--;
