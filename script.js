@@ -32,6 +32,25 @@ const data = [
     audio: "/music/Eldo1.mp3",
   },
 ];
+const createPlaylist = function () {
+  data.forEach((song) => {
+    const newLi = document.createElement("li");
+    newLi.classList.add("playlist__list_element");
+    // newLi.innerText = song.id + ". " + song.artist + " - " + song.song;
+    playlist.appendChild(newLi);
+    newLi.innerHTML = `${song.id}. ${song.artist} - ${song.song} <span class='songtime'></span>`;
+
+    newLi.addEventListener("click", () => {
+      i = song.id - 1;
+      loadSong();
+
+      const isPlaying = play.classList.contains("active");
+      if (isPlaying) {
+        playAudio();
+      }
+    });
+  });
+};
 
 // time converter seconds to MMSS
 
@@ -100,6 +119,10 @@ const loadSong = function () {
   audio.addEventListener("canplay", () => {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
     data[i].songDuration = currentTimeMMSS(audio.duration);
+    console.log(data[i]);
+    document.querySelectorAll(".songtime")[i].innerHTML = currentTimeMMSS(
+      audio.duration
+    );
   });
 
   //current time AND SONG DURATION
@@ -223,22 +246,5 @@ const functionPrvious = function () {
 
 // FUNCTIONS ON START
 loadSong();
-
-const createPlaylist = function () {
-  data.forEach((song) => {
-    const newLi = document.createElement("li");
-    newLi.classList.add("playlist__list_element");
-    newLi.innerText = song.id + ". " + song.artist + " - " + song.song;
-    playlist.appendChild(newLi);
-    newLi.addEventListener("click", () => {
-      i = song.id - 1;
-      loadSong();
-      const isPlaying = play.classList.contains("active");
-      if (isPlaying) {
-        playAudio();
-      }
-    });
-  });
-};
 
 createPlaylist();

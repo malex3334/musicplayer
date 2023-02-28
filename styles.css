@@ -38,7 +38,7 @@ body {
 
 .container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -264,20 +264,34 @@ body {
 
 .playlist__title {
   margin: 0.75rem 0;
+  font-size: 1.75rem;
 }
 
 .playlist__list {
   margin-left: 1rem;
+  font-size: 1.35rem;
   list-style: none;
 }
 
 .playlist__list_element {
   cursor: pointer;
+  padding: 0.5rem;
   margin: 0.75rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.playlist__list_element:nth-child(even) {
+  background: rgba(0, 0, 0, 0.133);
 }
 
 .playlist-active {
   font-weight: bold;
+}
+
+.songtime {
+  font-size: 1rem;
 }
 
 .body-style {
