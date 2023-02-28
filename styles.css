@@ -152,7 +152,7 @@ body {
 .options {
   margin: 0 5rem;
   cursor: pointer;
-  color: darkslategrey;
+  color: rgba(0, 0, 0, 0.518);
 }
 
 .options > span:last-child {
@@ -160,7 +160,8 @@ body {
 }
 
 .option-active {
-  color: black;
+  /* color: black; */
+  color: greenyellow;
   font-weight: bold;
 }
 
