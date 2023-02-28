@@ -124,7 +124,6 @@ const loadSong = function () {
   audio.addEventListener("canplay", () => {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
     data[i].songDuration = currentTimeMMSS(audio.duration);
-    console.log(data[i]);
     document.querySelectorAll(".songtime")[i].innerHTML = currentTimeMMSS(
       audio.duration
     );
@@ -244,7 +243,8 @@ previous.addEventListener("click", () => {
 // INCREMENT SONG INDEX
 const functionNext = function () {
   if (shuffleFlag == true) {
-    i = Math.floor(Math.random() * data.length);
+    let test = randomNumber(data.length, i);
+    i = test;
   } else {
     if (i >= data.length - 1) i = 0;
     else i++;
@@ -277,7 +277,6 @@ repeatBtn.addEventListener("click", () => {
   }
 
   // repeatFlag ? (repeatFlag = false) : (repeatFlag = true);
-  console.log(repeatFlag);
 });
 // SHUFFLE BUTTON
 shuffleBtn.addEventListener("click", () => {
@@ -288,7 +287,14 @@ shuffleBtn.addEventListener("click", () => {
     shuffleBtn.classList.add("option-active");
     shuffleFlag = true;
   }
-
-  // shuffleFlag ? (shuffleFlag = false) : (shuffleFlag = true);
-  console.log(shuffleFlag);
 });
+
+// random number different than previous
+function randomNumber(max, index) {
+  let prevNumber = index;
+  let number = Math.floor(Math.random() * max);
+
+  if (prevNumber == number) {
+    return randomNumber(max, index);
+  } else return number;
+}

@@ -39,6 +39,7 @@ body {
 .container {
   width: 100%;
   min-height: 100vh;
+  padding: 0 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,17 +135,32 @@ body {
   color: rgba(14, 14, 14, 0.8);
 }
 
+.buttons-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .timers {
+  display: flex;
   justify-content: flex-end;
   padding: 0 4rem;
   gap: 1rem;
 }
 
 .options {
+  margin: 0 5rem;
   cursor: pointer;
+  color: darkslategrey;
+}
+
+.options > span:last-child {
+  margin-left: 1.5rem;
 }
 
 .option-active {
+  color: black;
   font-weight: bold;
 }
 
@@ -337,5 +353,9 @@ body {
 
   .playlist {
     width: 40rem;
+  }
+
+  .playlist__list {
+    font-size: 2rem;
   }
 }
