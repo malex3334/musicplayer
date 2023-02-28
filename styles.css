@@ -140,6 +140,14 @@ body {
   gap: 1rem;
 }
 
+.options {
+  cursor: pointer;
+}
+
+.option-active {
+  font-weight: bold;
+}
+
 .progress-bar {
   margin: 1rem auto;
   width: 80%;

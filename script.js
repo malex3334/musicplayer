@@ -64,6 +64,11 @@ const currentTimeMMSS = function (seconds) {
   if (min <= 9) min = "0" + min;
   return `${min}:${sec}`;
 };
+// OPTIONS
+let repeatFlag = false;
+let shuffleFlag = false;
+const repeatBtn = document.querySelector("#repeat");
+const shuffleBtn = document.querySelector("#shuffle");
 
 const songTitle = document.getElementById("title");
 const artistName = document.getElementById("artist");
@@ -178,13 +183,17 @@ const playAudio = function () {
 
 // KEEP PLAYING AFTER SONGS END
 audio.onended = function () {
-  functionNext();
-  loadSong();
-  const isPlaying = play.classList.contains("active");
-  if (isPlaying) {
-    setTimeout(() => {
-      playAudio();
-    }, 500);
+  if (repeatFlag == true) {
+    playAudio();
+  } else {
+    functionNext();
+    loadSong();
+    const isPlaying = play.classList.contains("active");
+    if (isPlaying) {
+      setTimeout(() => {
+        playAudio();
+      }, 500);
+    }
   }
 };
 
@@ -234,17 +243,52 @@ previous.addEventListener("click", () => {
 
 // INCREMENT SONG INDEX
 const functionNext = function () {
-  if (i >= data.length - 1) i = 0;
-  else i++;
+  if (shuffleFlag == true) {
+    i = Math.floor(Math.random() * data.length);
+  } else {
+    if (i >= data.length - 1) i = 0;
+    else i++;
+  }
 };
 
 // DECREMENT SONG INDEX
 const functionPrvious = function () {
-  if (i <= 0) i = data.length - 1;
-  else i--;
+  if (shuffleFlag == true) {
+    i = Math.floor(Math.random() * data.length);
+  } else {
+    if (i <= 0) i = data.length - 1;
+    else i--;
+  }
 };
 
 // FUNCTIONS ON START
 loadSong();
 
 createPlaylist();
+
+// REPEAT BUTTON
+repeatBtn.addEventListener("click", () => {
+  if (repeatFlag == true) {
+    repeatFlag = false;
+    repeatBtn.classList.remove("option-active");
+  } else {
+    repeatBtn.classList.add("option-active");
+    repeatFlag = true;
+  }
+
+  // repeatFlag ? (repeatFlag = false) : (repeatFlag = true);
+  console.log(repeatFlag);
+});
+// SHUFFLE BUTTON
+shuffleBtn.addEventListener("click", () => {
+  if (shuffleFlag == true) {
+    shuffleFlag = false;
+    shuffleBtn.classList.remove("option-active");
+  } else {
+    shuffleBtn.classList.add("option-active");
+    shuffleFlag = true;
+  }
+
+  // shuffleFlag ? (shuffleFlag = false) : (shuffleFlag = true);
+  console.log(shuffleFlag);
+});
