@@ -1,6 +1,42 @@
 "use strict";
 
-const data = [
+let data = [
+  // {
+  //   id: 1,
+  //   song: "Mówiłaś Mi",
+  //   artist: "O.S.T.R.",
+  //   cover:
+  //     "https://images.genius.com/95158566e73ea4ee02dd2b7b24463d8d.500x500x1.jpg",
+  //   audio: "/music/OSTR.mp3",
+  //   fav: true,
+  // },
+  // {
+  //   id: 2,
+  //   song: "To jest ta miłość",
+  //   artist: "O.S.T.R.",
+  //   cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
+  //   audio: "/music/OSTR2.mp3",
+  //   fav: true,
+  // },
+  // {
+  //   id: 3,
+  //   song: "Na Szczycie Blend",
+  //   artist: "SzUsty Blend",
+  //   cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
+  //   audio: "/music/Quebo.mp3",
+  //   fav: true,
+  // },
+  // {
+  //   id: 4,
+  //   song: "Panamericana",
+  //   artist: "Eldo",
+  //   cover:
+  //     "https://images.genius.com/40f956cb7b2fe1cabe03005755474b4d.803x800x1.jpg",
+  //   audio: "/music/Eldo1.mp3",
+  //   fav: false,
+  // },
+];
+const allSongs = [
   {
     id: 1,
     song: "Mówiłaś Mi",
@@ -8,6 +44,7 @@ const data = [
     cover:
       "https://images.genius.com/95158566e73ea4ee02dd2b7b24463d8d.500x500x1.jpg",
     audio: "/music/OSTR.mp3",
+    fav: true,
   },
   {
     id: 2,
@@ -15,6 +52,7 @@ const data = [
     artist: "O.S.T.R.",
     cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
     audio: "/music/OSTR2.mp3",
+    fav: true,
   },
   {
     id: 3,
@@ -22,6 +60,7 @@ const data = [
     artist: "SzUsty Blend",
     cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
     audio: "/music/Quebo.mp3",
+    fav: true,
   },
   {
     id: 4,
@@ -30,13 +69,24 @@ const data = [
     cover:
       "https://images.genius.com/40f956cb7b2fe1cabe03005755474b4d.803x800x1.jpg",
     audio: "/music/Eldo1.mp3",
+    fav: false,
   },
 ];
+
+let favSongsData = [];
+
+function updateFavSongsList() {
+  favSongsData = allSongs.filter((x) => x.fav == true);
+}
+
+data = allSongs;
+updateFavSongsList();
+
 const createPlaylist = function () {
   data.forEach((song) => {
     const newLi = document.createElement("li");
     newLi.classList.add("playlist__list_element");
-    // newLi.innerText = song.id + ". " + song.artist + " - " + song.song;
+    newLi.setAttribute("data-id", song.id);
     playlist.appendChild(newLi);
     newLi.innerHTML = `${song.id}. ${song.artist} - ${song.song} <span class='songtime'></span>`;
 
@@ -96,6 +146,62 @@ const songDurationCon = Math.floor(audio.duration);
 const volumeSlider = document.getElementById("volume-slider");
 const currentVolumeSlider = document.getElementById("current-volume");
 
+// FAV
+const toggleFavPlaylist = document.getElementById("toggle-fav");
+let showFav = false;
+
+toggleFavPlaylist.addEventListener("click", () => {
+  showFav = !showFav;
+  toggleFavPlaylist.classList.toggle("toggle-active");
+  if (showFav == false) {
+    data = allSongs;
+  } else {
+    data = favSongsData;
+  }
+  // clear playlist
+  playlist.innerHTML = ``;
+  createPlaylist();
+});
+
+const favParent = document.querySelector(".options");
+favParent.classList.add("options__like");
+const favIcon = document.createElement("span");
+favIcon.classList.add("fav");
+
+function favSongs(isFav) {
+  const iconEmpty = `<svg width='2rem' height="2rem" viewBox="0 0 512 512"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M 352.92 80 C 288 80 256 144 256 144 s -32 -64 -96.92 -64 c -52.76 0 -94.54 44.14 -95.08 96.81 c -1.1 109.33 86.73 187.08 183 252.42 a 16 16 0 0 0 18 0 c 96.26 -65.34 184.09 -143.09 183 -252.42 c -0.54 -52.67 -42.32 -96.81 -95.08 -96.81 Z" /></svg>`;
+
+  if (isFav == true) {
+    favIcon.innerHTML = iconEmpty;
+    favIcon.classList.add("fav-active");
+    favParent.appendChild(favIcon);
+  } else {
+    favIcon.innerHTML = iconEmpty;
+    favIcon.classList.remove("fav-active");
+    favParent.appendChild(favIcon);
+  }
+}
+
+favIcon.addEventListener("click", (e) => {
+  data[i].fav = !data[i].fav;
+
+  if (data[i].fav == true) {
+    favIcon.classList.add("fav-active");
+  } else {
+    favIcon.classList.remove("fav-active");
+    // functionNext();
+    // loadSong();
+  }
+
+  updateFavSongsList();
+  playlist.innerHTML = ``;
+
+  console.log(data, favSongsData, allSongs);
+  createPlaylist();
+});
+
+function updateFavState() {}
+
 // TIMERS
 let timeMMSS = 0;
 
@@ -105,6 +211,9 @@ const loadSong = function () {
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
+
+  // check if fav and show icon
+  favSongs(data[i].fav);
 
   // highlight current song on playlist
   const prevCurrentPlaylistSong = document.querySelector(".playlist-active");
