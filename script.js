@@ -74,13 +74,13 @@ const allSongs = [
 ];
 
 let favSongsData = [];
+data = allSongs;
 
 function updateFavSongsList() {
   let filter = allSongs.filter((x) => x.fav == true);
   favSongsData = filter;
 }
 
-data = allSongs;
 updateFavSongsList();
 
 const createPlaylist = function () {
@@ -91,9 +91,11 @@ const createPlaylist = function () {
     newLi.classList.add("playlist__list_element");
     newLi.setAttribute("data-id", song.id);
     playlist.appendChild(newLi);
-    newLi.innerHTML = `${songPlaylistIndex++}. ${song.artist} - ${
-      song.song
-    } <span class='songtime'></span>`;
+    newLi.innerHTML = `${songPlaylistIndex++}. ${song.artist} - ${song.song} ${
+      song.songDuration
+        ? `<span class='songtime'>${song.songDuration}</span>`
+        : `<span class='songtime'></span>`
+    }`;
 
     newLi.addEventListener("click", (e) => {
       i = e.target.getAttribute("data-id");
@@ -160,12 +162,14 @@ let showFav = false;
 toggleFavPlaylist.addEventListener("click", () => {
   showFav = !showFav;
   toggleFavPlaylist.classList.toggle("toggle-active");
+  playlist.parentElement.classList.toggle("favstyle");
+
   if (showFav == false) {
     data = allSongs;
     toggleFavPlaylist.innerText = "Fav Songs";
   } else {
-    toggleFavPlaylist.innerText = "All Songs";
     data = favSongsData;
+    toggleFavPlaylist.innerText = "All Songs";
   }
   // clear playlist
   playlist.innerHTML = ``;
@@ -213,7 +217,9 @@ let timeMMSS = 0;
 const loadSong = function () {
   const result = (audio.src = data.filter((data) => data.id == i));
   const newID = result[0]?.id;
-  let songIndex = data
+  let songIndex;
+
+  songIndex = data
     .map((e) => {
       return e.id;
     })
@@ -221,14 +227,16 @@ const loadSong = function () {
 
   // audio.src = data[0].audio;
   if (songIndex === undefined || songIndex == -1) {
-    audio.src = data[0].audio;
+    songIndex = 0;
+    i = songIndex;
+    // audio.src = data[0].audio;
   }
 
   if (songIndex >= 0) {
     i = songIndex;
     audio.src = data[i].audio;
   }
-
+  console.log(i, songIndex);
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
