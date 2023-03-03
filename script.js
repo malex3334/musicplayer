@@ -148,6 +148,7 @@ const currentVolumeSlider = document.getElementById("current-volume");
 
 // FAV
 const toggleFavPlaylist = document.getElementById("toggle-fav");
+toggleFavPlaylist.innerText = "Fav Songs";
 let showFav = false;
 
 toggleFavPlaylist.addEventListener("click", () => {
@@ -155,8 +156,10 @@ toggleFavPlaylist.addEventListener("click", () => {
   toggleFavPlaylist.classList.toggle("toggle-active");
   if (showFav == false) {
     data = allSongs;
+    toggleFavPlaylist.innerText = "Fav Songs";
   } else {
     data = favSongsData;
+    toggleFavPlaylist.innerText = "All Songs";
   }
   // clear playlist
   playlist.innerHTML = ``;
@@ -192,7 +195,6 @@ favIcon.addEventListener("click", (e) => {
     // functionNext();
     // loadSong();
   }
-
   updateFavSongsList();
   playlist.innerHTML = ``;
 
@@ -211,7 +213,6 @@ const loadSong = function () {
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
-
   // check if fav and show icon
   favSongs(data[i].fav);
 

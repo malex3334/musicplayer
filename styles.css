@@ -324,6 +324,8 @@ body {
 
 #toggle-fav {
   cursor: pointer;
+  display: block;
+  text-align: end;
 }
 
 .toggle-active {
@@ -336,7 +338,7 @@ body {
 }
 .fav-active svg {
   color: rgba(0, 0, 0, 0.518) !important;
-  fill: red !important;
+  fill: #3b3b3b;
 }
 
 .body-style {
