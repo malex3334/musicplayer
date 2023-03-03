@@ -83,15 +83,18 @@ data = allSongs;
 updateFavSongsList();
 
 const createPlaylist = function () {
+  let songPlaylistIndex = 1;
+
   data.forEach((song) => {
     const newLi = document.createElement("li");
     newLi.classList.add("playlist__list_element");
     newLi.setAttribute("data-id", song.id);
     playlist.appendChild(newLi);
-    newLi.innerHTML = `${song.id}. ${song.artist} - ${song.song} <span class='songtime'></span>`;
+    newLi.innerHTML = `${songPlaylistIndex++}. ${song.artist} - ${
+      song.song
+    } <span class='songtime'></span>`;
 
     newLi.addEventListener("click", (e) => {
-      // i = song.id - 1;
       i = e.target.getAttribute("data-id");
       loadSong();
       "e", e.target.getAttribute("data-id");
@@ -198,9 +201,9 @@ favIcon.addEventListener("click", (e) => {
     // loadSong();
   }
   updateFavSongsList();
+  data = favSongsData;
   playlist.innerHTML = ``;
 
-  console.log(data, favSongsData, allSongs);
   createPlaylist();
 });
 
@@ -219,6 +222,7 @@ const loadSong = function () {
     })
     .indexOf(newID);
 
+  console.log(songIndex);
   audio.src = data[0].audio;
   if (songIndex === undefined || songIndex == -1) {
     audio.src = data[0].audio;
@@ -226,9 +230,9 @@ const loadSong = function () {
 
   if (songIndex >= 0) {
     i = songIndex;
+    audio.src = data[i].audio;
   }
 
-  // console.log((audio.src = data.filter((data) => data.id == i)));
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
@@ -250,9 +254,12 @@ const loadSong = function () {
   songTitle.innerHTML = data[i].song;
   artistName.innerHTML = data[i].artist;
 
+  // TO BE FIXED
   audio.addEventListener("canplay", () => {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
+    console.log(i);
     data[i].songDuration = currentTimeMMSS(audio.duration);
+    console.log(audio.duration);
     document.querySelectorAll(".songtime")[i].innerHTML = currentTimeMMSS(
       audio.duration
     );
