@@ -222,7 +222,6 @@ const loadSong = function () {
     })
     .indexOf(newID);
 
-  console.log(songIndex);
   audio.src = data[0].audio;
   if (songIndex === undefined || songIndex == -1) {
     audio.src = data[0].audio;
@@ -255,14 +254,15 @@ const loadSong = function () {
   artistName.innerHTML = data[i].artist;
 
   // TO BE FIXED
-  audio.addEventListener("canplay", () => {
+
+  audio.addEventListener("canplay", function abc() {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
-    console.log(i);
     data[i].songDuration = currentTimeMMSS(audio.duration);
-    console.log(audio.duration);
     document.querySelectorAll(".songtime")[i].innerHTML = currentTimeMMSS(
       audio.duration
     );
+
+    audio.removeEventListener("canplay", abc);
   });
 
   //current time AND SONG DURATION
