@@ -44,7 +44,7 @@ const allSongs = [
     cover:
       "https://images.genius.com/95158566e73ea4ee02dd2b7b24463d8d.500x500x1.jpg",
     audio: "/music/OSTR.mp3",
-    fav: true,
+    fav: false,
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ const allSongs = [
     artist: "O.S.T.R.",
     cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
     audio: "/music/OSTR2.mp3",
-    fav: true,
+    fav: false,
   },
   {
     id: 3,
@@ -60,7 +60,7 @@ const allSongs = [
     artist: "SzUsty Blend",
     cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
     audio: "/music/Quebo.mp3",
-    fav: true,
+    fav: false,
   },
   {
     id: 4,
@@ -76,7 +76,8 @@ const allSongs = [
 let favSongsData = [];
 
 function updateFavSongsList() {
-  favSongsData = allSongs.filter((x) => x.fav == true);
+  let filter = allSongs.filter((x) => x.fav == true);
+  favSongsData = filter;
 }
 
 data = allSongs;
@@ -163,8 +164,8 @@ toggleFavPlaylist.addEventListener("click", () => {
     data = allSongs;
     toggleFavPlaylist.innerText = "Fav Songs";
   } else {
-    data = favSongsData;
     toggleFavPlaylist.innerText = "All Songs";
+    data = favSongsData;
   }
   // clear playlist
   playlist.innerHTML = ``;
@@ -197,13 +198,9 @@ favIcon.addEventListener("click", (e) => {
     favIcon.classList.add("fav-active");
   } else {
     favIcon.classList.remove("fav-active");
-    // functionNext();
-    // loadSong();
   }
   updateFavSongsList();
-  data = favSongsData;
   playlist.innerHTML = ``;
-
   createPlaylist();
 });
 
@@ -222,7 +219,7 @@ const loadSong = function () {
     })
     .indexOf(newID);
 
-  audio.src = data[0].audio;
+  // audio.src = data[0].audio;
   if (songIndex === undefined || songIndex == -1) {
     audio.src = data[0].audio;
   }
@@ -242,7 +239,6 @@ const loadSong = function () {
   const prevCurrentPlaylistSong = document.querySelector(".playlist-active");
   prevCurrentPlaylistSong?.classList.remove("playlist-active");
   currentPlaylistSong[i]?.classList.add("playlist-active");
-
   //LOAD DATA
   albumCover.style.background = `url(\"${data[i].cover}\")`;
   albumCover.style.backgroundSize = "cover";
@@ -385,6 +381,7 @@ const functionNext = function () {
     if (i >= data.length - 1) i = 0;
     else i++;
   }
+  i++;
 };
 
 // DECREMENT SONG INDEX
@@ -392,9 +389,9 @@ const functionPrvious = function () {
   if (shuffleFlag == true) {
     let test = randomNumber(data.length, i);
     i = test;
-  } else {
-    if (i <= 0) i = data.length - 1;
-    else i--;
+  }
+  if (i <= 0) {
+    i = data.length;
   }
 };
 
