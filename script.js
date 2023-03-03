@@ -90,9 +90,11 @@ const createPlaylist = function () {
     playlist.appendChild(newLi);
     newLi.innerHTML = `${song.id}. ${song.artist} - ${song.song} <span class='songtime'></span>`;
 
-    newLi.addEventListener("click", () => {
-      i = song.id - 1;
+    newLi.addEventListener("click", (e) => {
+      // i = song.id - 1;
+      i = e.target.getAttribute("data-id");
       loadSong();
+      "e", e.target.getAttribute("data-id");
 
       const isPlaying = play.classList.contains("active");
       if (isPlaying) {
@@ -209,7 +211,24 @@ let timeMMSS = 0;
 
 //LOAD SONG
 const loadSong = function () {
-  audio.src = data[i].audio;
+  const result = (audio.src = data.filter((data) => data.id == i));
+  const newID = result[0]?.id;
+  let songIndex = data
+    .map((e) => {
+      return e.id;
+    })
+    .indexOf(newID);
+
+  audio.src = data[0].audio;
+  if (songIndex === undefined || songIndex == -1) {
+    audio.src = data[0].audio;
+  }
+
+  if (songIndex >= 0) {
+    i = songIndex;
+  }
+
+  // console.log((audio.src = data.filter((data) => data.id == i)));
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
