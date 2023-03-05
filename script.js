@@ -38,13 +38,13 @@ let data = [
 ];
 const allSongs = [
   {
-    id: 1,
+    id: 0,
     song: "Mówiłaś Mi",
     artist: "O.S.T.R.",
     cover:
       "https://images.genius.com/95158566e73ea4ee02dd2b7b24463d8d.500x500x1.jpg",
     audio: "/music/OSTR.mp3",
-    fav: false,
+    fav: true,
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ const allSongs = [
     artist: "O.S.T.R.",
     cover: "https://www.gloskultury.pl/wp-content/uploads/2017/12/ostry.jpg",
     audio: "/music/OSTR2.mp3",
-    fav: false,
+    fav: true,
   },
   {
     id: 3,
@@ -60,7 +60,7 @@ const allSongs = [
     artist: "SzUsty Blend",
     cover: "https://i1.sndcdn.com/artworks-000554516715-g2a53s-t500x500.jpg",
     audio: "/music/Quebo.mp3",
-    fav: false,
+    fav: true,
   },
   {
     id: 4,
@@ -69,7 +69,7 @@ const allSongs = [
     cover:
       "https://images.genius.com/40f956cb7b2fe1cabe03005755474b4d.803x800x1.jpg",
     audio: "/music/Eldo1.mp3",
-    fav: false,
+    fav: true,
   },
 ];
 
@@ -196,9 +196,9 @@ function favSongs(isFav) {
 }
 
 favIcon.addEventListener("click", (e) => {
-  data[i].fav = !data[i].fav;
+  data[songIndex].fav = !data[songIndex].fav;
 
-  if (data[i].fav == true) {
+  if (data[songIndex].fav == true) {
     favIcon.classList.add("fav-active");
   } else {
     favIcon.classList.remove("fav-active");
@@ -213,58 +213,53 @@ function updateFavState() {}
 // TIMERS
 let timeMMSS = 0;
 
+let songIndex;
 //LOAD SONG
 const loadSong = function () {
-  const result = (audio.src = data.filter((data) => data.id == i));
+  const result = (audio.src = data.filter((data) => data.id === i));
+  // console.log("result", result);
   const newID = result[0]?.id;
-  let songIndex;
+  // console.log("newid", newID);
 
+  // TO BE FIXED
   songIndex = data
     .map((e) => {
       return e.id;
     })
     .indexOf(newID);
 
-  // audio.src = data[0].audio;
   if (songIndex === undefined || songIndex == -1) {
     songIndex = 0;
-    i = songIndex;
-    // audio.src = data[0].audio;
   }
 
   if (songIndex >= 0) {
-    i = songIndex;
-    audio.src = data[i].audio;
+    audio.src = data[songIndex].audio;
   }
-  console.log(i, songIndex);
   let currentPlaylistSong = document.querySelectorAll(
     ".playlist__list_element"
   );
   // check if fav and show icon
-  favSongs(data[i].fav);
+  favSongs(data[songIndex].fav);
 
   // highlight current song on playlist
   const prevCurrentPlaylistSong = document.querySelector(".playlist-active");
   prevCurrentPlaylistSong?.classList.remove("playlist-active");
-  currentPlaylistSong[i]?.classList.add("playlist-active");
+  currentPlaylistSong[songIndex]?.classList.add("playlist-active");
   //LOAD DATA
-  albumCover.style.background = `url(\"${data[i].cover}\")`;
+  albumCover.style.background = `url(\"${data[songIndex].cover}\")`;
   albumCover.style.backgroundSize = "cover";
-  document.body.style.background = `url(\"${data[i].cover}\")`;
+  document.body.style.background = `url(\"${data[songIndex].cover}\")`;
   document.body.style.backgroundSize = "cover";
-  document.body.style.background = `url(\"${data[i].cover}\")`;
+  document.body.style.background = `url(\"${data[songIndex].cover}\")`;
   document.body.style.backgroundSize = "cover";
-  songTitle.innerHTML = data[i].song;
-  artistName.innerHTML = data[i].artist;
-
-  // TO BE FIXED
+  songTitle.innerHTML = data[songIndex].song;
+  artistName.innerHTML = data[songIndex].artist;
 
   audio.addEventListener("canplay", function abc() {
     songDurationEl.innerHTML = currentTimeMMSS(audio.duration);
-    data[i].songDuration = currentTimeMMSS(audio.duration);
-    document.querySelectorAll(".songtime")[i].innerHTML = currentTimeMMSS(
-      audio.duration
-    );
+    data[songIndex].songDuration = currentTimeMMSS(audio.duration);
+    document.querySelectorAll(".songtime")[songIndex].innerHTML =
+      currentTimeMMSS(audio.duration);
 
     audio.removeEventListener("canplay", abc);
   });
@@ -383,24 +378,24 @@ previous.addEventListener("click", () => {
 // INCREMENT SONG INDEX
 const functionNext = function () {
   if (shuffleFlag == true) {
-    let test = randomNumber(data.length, i);
+    let test = randomNumber(data.length + 1, i);
     i = test;
   } else {
-    if (i >= data.length - 1) i = 0;
-    else i++;
+    if (i >= data.length) {
+      i = 1;
+    } else i++;
   }
-  i++;
 };
 
 // DECREMENT SONG INDEX
 const functionPrvious = function () {
   if (shuffleFlag == true) {
-    let test = randomNumber(data.length, i);
+    let test = randomNumber(data.length + 1, i);
     i = test;
   }
   if (i <= 0) {
     i = data.length;
-  }
+  } else i--;
 };
 
 // FUNCTIONS ON START
