@@ -38,7 +38,7 @@ let data = [
 ];
 const allSongs = [
   {
-    id: 0,
+    id: 1,
     song: "Mówiłaś Mi",
     artist: "O.S.T.R.",
     cover:
@@ -73,8 +73,15 @@ const allSongs = [
   },
 ];
 
+let songID = 1;
+let songIndex;
+let songDataArray = [];
 let favSongsData = [];
+let arrayPosition = 0;
+
 data = allSongs;
+
+getSongDataArray();
 
 function updateFavSongsList() {
   let filter = allSongs.filter((x) => x.fav == true);
@@ -98,9 +105,9 @@ const createPlaylist = function () {
     }`;
 
     newLi.addEventListener("click", (e) => {
-      i = e.target.getAttribute("data-id");
-      loadSong();
-      "e", e.target.getAttribute("data-id");
+      songID = e.target.getAttribute("data-id");
+      loadSong(Number(songID));
+      // "e", e.target.getAttribute("data-id");
 
       const isPlaying = play.classList.contains("active");
       if (isPlaying) {
@@ -166,9 +173,11 @@ toggleFavPlaylist.addEventListener("click", () => {
 
   if (showFav == false) {
     data = allSongs;
+    getSongDataArray();
     toggleFavPlaylist.innerText = "Fav Songs";
   } else {
     data = favSongsData;
+    getSongDataArray();
     toggleFavPlaylist.innerText = "All Songs";
   }
   // clear playlist
@@ -181,20 +190,6 @@ favParent.classList.add("options__like");
 const favIcon = document.createElement("span");
 favIcon.classList.add("fav");
 
-function favSongs(isFav) {
-  const iconEmpty = `<svg width='2rem' height="2rem" viewBox="0 0 512 512"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M 352.92 80 C 288 80 256 144 256 144 s -32 -64 -96.92 -64 c -52.76 0 -94.54 44.14 -95.08 96.81 c -1.1 109.33 86.73 187.08 183 252.42 a 16 16 0 0 0 18 0 c 96.26 -65.34 184.09 -143.09 183 -252.42 c -0.54 -52.67 -42.32 -96.81 -95.08 -96.81 Z" /></svg>`;
-
-  if (isFav == true) {
-    favIcon.innerHTML = iconEmpty;
-    favIcon.classList.add("fav-active");
-    favParent.appendChild(favIcon);
-  } else {
-    favIcon.innerHTML = iconEmpty;
-    favIcon.classList.remove("fav-active");
-    favParent.appendChild(favIcon);
-  }
-}
-
 favIcon.addEventListener("click", (e) => {
   data[songIndex].fav = !data[songIndex].fav;
 
@@ -204,34 +199,25 @@ favIcon.addEventListener("click", (e) => {
     favIcon.classList.remove("fav-active");
   }
   updateFavSongsList();
+  playlistFilter();
   playlist.innerHTML = ``;
   createPlaylist();
 });
 
-function updateFavState() {}
-
 // TIMERS
 let timeMMSS = 0;
 
-let songIndex;
 //LOAD SONG
-const loadSong = function () {
-  const result = (audio.src = data.filter((data) => data.id === i));
-  // console.log("result", result);
-  const newID = result[0]?.id;
-  // console.log("newid", newID);
 
-  // TO BE FIXED
+const loadSong = function (songID) {
+  // find index of loaded song in html li element
   songIndex = data
     .map((e) => {
       return e.id;
     })
-    .indexOf(newID);
+    .indexOf(songID);
 
-  if (songIndex === undefined || songIndex == -1) {
-    songIndex = 0;
-  }
-
+  // if index is correct - set audio
   if (songIndex >= 0) {
     audio.src = data[songIndex].audio;
   }
@@ -239,7 +225,8 @@ const loadSong = function () {
     ".playlist__list_element"
   );
   // check if fav and show icon
-  favSongs(data[songIndex].fav);
+  console.log(songIndex);
+  favSongs(data[songIndex]?.fav);
 
   // highlight current song on playlist
   const prevCurrentPlaylistSong = document.querySelector(".playlist-active");
@@ -321,7 +308,7 @@ audio.onended = function () {
     playAudio();
   } else {
     functionNext();
-    loadSong();
+    loadSong(songID);
     const isPlaying = play.classList.contains("active");
     if (isPlaying) {
       setTimeout(() => {
@@ -358,7 +345,7 @@ pause.addEventListener("click", () => {
 // FORWARD CLICKED
 next.addEventListener("click", () => {
   functionNext();
-  loadSong();
+  loadSong(songID);
   const isPlaying = play.classList.contains("active");
   if (isPlaying) {
     playAudio();
@@ -368,7 +355,7 @@ next.addEventListener("click", () => {
 // PREVIOUS CLICKED
 previous.addEventListener("click", () => {
   functionPrvious();
-  loadSong();
+  loadSong(songID);
   const isPlaying = play.classList.contains("active");
   if (isPlaying) {
     playAudio();
@@ -377,29 +364,45 @@ previous.addEventListener("click", () => {
 
 // INCREMENT SONG INDEX
 const functionNext = function () {
-  if (shuffleFlag == true) {
-    let test = randomNumber(data.length + 1, i);
-    i = test;
-  } else {
-    if (i >= data.length) {
-      i = 1;
-    } else i++;
+  // if (shuffleFlag == true) {
+  //   let test = randomNumber(data.length + 1, i);
+  //   i = test;
+  // } else {
+  //   if (i >= data.length) {
+  //     i = 1;
+  //   } else i++;
+  // }
+  // new
+  // if (songID > data.length - 1) songID = 0;
+  // songID++;
+
+  //pozycja na podstawie arraya
+  // songdataarray = wszystkie ID które są obecnie na playliście
+  //  do zrobienia: ustawiać songID po kolei pozycjami z arraya przy każdym kliknięciu
+
+  arrayPosition++;
+  if (arrayPosition >= songDataArray.length) {
+    arrayPosition = 0;
   }
+  songID = songDataArray[arrayPosition];
 };
 
 // DECREMENT SONG INDEX
 const functionPrvious = function () {
-  if (shuffleFlag == true) {
-    let test = randomNumber(data.length + 1, i);
-    i = test;
+  console.log("minus", arrayPosition);
+  arrayPosition--;
+  if (arrayPosition < 0) {
+    arrayPosition = songDataArray.length - 1;
   }
-  if (i <= 0) {
-    i = data.length;
-  } else i--;
+  songID = songDataArray[arrayPosition];
+  // if (shuffleFlag == true) {
+  //   let test = randomNumber(data.length + 1, i);
+  //   i = test;
+  // }
 };
 
 // FUNCTIONS ON START
-loadSong();
+loadSong(songID);
 
 createPlaylist();
 
@@ -434,4 +437,54 @@ function randomNumber(max, index) {
   if (prevNumber == number) {
     return randomNumber(max, index);
   } else return number;
+}
+
+// update data - fav songs/ all songs
+function playlistFilter() {
+  if (showFav == false) {
+    data = allSongs;
+    getSongDataArray();
+    toggleFavPlaylist.innerText = "Fav Songs";
+  } else {
+    data = favSongsData;
+    getSongDataArray();
+    toggleFavPlaylist.innerText = "All Songs";
+  }
+}
+
+//  get ID's of songs in data array
+function getSongDataArray() {
+  songDataArray = [];
+  data.forEach((song) => {
+    songDataArray.push(song.id);
+  });
+  console.log(songDataArray);
+}
+
+//  check if songs is in fav playlist
+function favSongs(isFav) {
+  const iconEmpty = `<svg width='2rem' height="2rem" viewBox="0 0 512 512"><path xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="64" d="M 352.92 80 C 288 80 256 144 256 144 s -32 -64 -96.92 -64 c -52.76 0 -94.54 44.14 -95.08 96.81 c -1.1 109.33 86.73 187.08 183 252.42 a 16 16 0 0 0 18 0 c 96.26 -65.34 184.09 -143.09 183 -252.42 c -0.54 -52.67 -42.32 -96.81 -95.08 -96.81 Z" /></svg>`;
+
+  if (isFav == true) {
+    favIcon.innerHTML = iconEmpty;
+    favIcon.classList.add("fav-active");
+    favParent.appendChild(favIcon);
+  } else {
+    favIcon.innerHTML = iconEmpty;
+    favIcon.classList.remove("fav-active");
+    favParent.appendChild(favIcon);
+  }
+}
+
+// update data - fav songs/ all songs
+function playlistFilter() {
+  if (showFav == false) {
+    data = allSongs;
+    getSongDataArray();
+    toggleFavPlaylist.innerText = "Fav Songs";
+  } else {
+    data = favSongsData;
+    getSongDataArray();
+    toggleFavPlaylist.innerText = "All Songs";
+  }
 }
