@@ -154,7 +154,6 @@ const volumeMinEl = document.getElementById("volume-min");
 const volumeMaxEl = document.getElementById("volume-max");
 
 //SONGS CHANGE
-let i = 0;
 const albumCover = document.getElementById("cover");
 const currentTimeCon = Math.floor(audio.currentTime);
 const songDurationCon = Math.floor(audio.duration);
@@ -225,7 +224,6 @@ const loadSong = function (songID) {
     ".playlist__list_element"
   );
   // check if fav and show icon
-  console.log(songIndex);
   favSongs(data[songIndex]?.fav);
 
   // highlight current song on playlist
@@ -363,43 +361,31 @@ previous.addEventListener("click", () => {
 });
 
 // INCREMENT SONG INDEX
-const functionNext = function () {
-  // if (shuffleFlag == true) {
-  //   let test = randomNumber(data.length + 1, i);
-  //   i = test;
-  // } else {
-  //   if (i >= data.length) {
-  //     i = 1;
-  //   } else i++;
-  // }
-  // new
-  // if (songID > data.length - 1) songID = 0;
-  // songID++;
 
-  //pozycja na podstawie arraya
-  // songdataarray = wszystkie ID które są obecnie na playliście
-  //  do zrobienia: ustawiać songID po kolei pozycjami z arraya przy każdym kliknięciu
-
+function functionNext() {
   arrayPosition++;
   if (arrayPosition >= songDataArray.length) {
     arrayPosition = 0;
   }
   songID = songDataArray[arrayPosition];
-};
+
+  if (shuffleFlag == true) {
+    songID = randomNumber(songDataArray.length, songID);
+  }
+}
 
 // DECREMENT SONG INDEX
-const functionPrvious = function () {
-  console.log("minus", arrayPosition);
+function functionPrvious() {
   arrayPosition--;
   if (arrayPosition < 0) {
     arrayPosition = songDataArray.length - 1;
   }
   songID = songDataArray[arrayPosition];
-  // if (shuffleFlag == true) {
-  //   let test = randomNumber(data.length + 1, i);
-  //   i = test;
-  // }
-};
+
+  if (shuffleFlag == true) {
+    songID = randomNumber(songDataArray.length, songID);
+  }
+}
 
 // FUNCTIONS ON START
 loadSong(songID);
@@ -432,7 +418,7 @@ shuffleBtn.addEventListener("click", () => {
 // random number different than previous
 function randomNumber(max, index) {
   let prevNumber = index;
-  let number = Math.floor(Math.random() * max);
+  let number = Math.floor(Math.random() * max + 1);
 
   if (prevNumber == number) {
     return randomNumber(max, index);
@@ -458,7 +444,6 @@ function getSongDataArray() {
   data.forEach((song) => {
     songDataArray.push(song.id);
   });
-  console.log(songDataArray);
 }
 
 //  check if songs is in fav playlist
